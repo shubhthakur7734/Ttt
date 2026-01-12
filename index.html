@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gig Platform – Single File Prototype</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f2f4f7;
+}
+
+header {
+  background: #0d6efd;
+  padding: 14px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+nav {
+  background: #084298;
+  display: flex;
+  justify-content: center;
+  gap: 25px;
+  padding: 12px;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+section {
+  padding: 30px;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.card, .job-card, .stats {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+button {
+  padding: 8px 14px;
+  background: #0d6efd;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #084298;
+}
+
+.map {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+footer {
+  background: #0d6efd;
+  color: white;
+  text-align: center;
+  padding: 15px;
+}
+</style>
+</head>
+
+<body>
+
+<header>Gig Platform Prototype</header>
+
+<nav>
+  <a href="#workers">Workers</a>
+  <a href="#employers">Employers</a>
+  <a href="#analytics">Analytics</a>
+</nav>
+
+<!-- WORKERS -->
+<section id="workers">
+  <h2>Available Workers</h2>
+  <div class="grid" id="workersGrid"></div>
+</section>
+
+<!-- EMPLOYERS -->
+<section id="employers">
+  <h2>Available Gigs</h2>
+  <div class="grid" id="jobsGrid"></div>
+</section>
+
+<!-- ANALYTICS -->
+<section id="analytics">
+  <h2>City-wise Analytics</h2>
+  <div class="map">
+    <button onclick="showStats('Delhi')">Delhi</button>
+    <button onclick="showStats('Mumbai')">Mumbai</button>
+    <button onclick="showStats('Bangalore')">Bangalore</button>
+  </div>
+  <div id="statsBox"></div>
+</section>
+
+<footer>© 2026 Gig Platform</footer>
+
+<script>
+/* ---------- DATA ---------- */
+
+const workers = [
+  { name: "Rahul Sharma", skill: "Electrician", rating: 4.6, img: "images/worker1.jpg" },
+  { name: "Amit Verma", skill: "Plumber", rating: 4.4, img: "images/worker2.jpg" },
+  { name: "Suresh Kumar", skill: "Carpenter", rating: 4.8, img: "images/worker3.jpg" },
+  { name: "Imran Khan", skill: "Painter", rating: 4.3, img: "images/worker4.jpg" },
+  { name: "Vikas Singh", skill: "AC Technician", rating: 4.7, img: "images/worker5.jpg" }
+];
+
+const jobs = [
+  { title: "Electrician Needed", location: "Delhi", pay: "₹800/day" },
+  { title: "Plumber Required", location: "Mumbai", pay: "₹1000/day" },
+  { title: "Carpenter – Office Setup", location: "Bangalore", pay: "₹1200/day" },
+  { title: "Interior Painter", location: "Delhi", pay: "₹900/day" }
+];
+
+const cityStats = {
+  Delhi: { workers: 1200, jobs: 450, avgPay: "₹900/day" },
+  Mumbai: { workers: 980, jobs: 380, avgPay: "₹1100/day" },
+  Bangalore: { workers: 860, jobs: 410, avgPay: "₹1200/day" }
+};
+
+/* ---------- LOAD WORKERS ---------- */
+const workersGrid = document.getElementById("workersGrid");
+workers.forEach(w => {
+  const card = document.createElement("div");
+  card.className = "card";
+  card.innerHTML = `
+    <img src="${w.img}" alt="${w.name}">
+    <h3>${w.name}</h3>
+    <p>${w.skill}</p>
+    <p>⭐ ${w.rating}</p>
+    <button onclick="alert('Hired ${w.name}')">Hire</button>
+  `;
+  workersGrid.appendChild(card);
+});
+
+/* ---------- LOAD JOBS ---------- */
+const jobsGrid = document.getElementById("jobsGrid");
+jobs.forEach(j => {
+  const job = document.createElement("div");
+  job.className = "job-card";
+  job.innerHTML = `
+    <h3>${j.title}</h3>
+    <p>📍 ${j.location}</p>
+    <p>💰 ${j.pay}</p>
+    <button onclick="alert('Applied successfully')">Apply</button>
+  `;
+  jobsGrid.appendChild(job);
+});
+
+/* ---------- CITY STATS ---------- */
+function showStats(city) {
+  const data = cityStats[city];
+  document.getElementById("statsBox").innerHTML = `
+    <div class="stats">
+      <h3>${city} Statistics</h3>
+      <p>Total Workers: ${data.workers}</p>
+      <p>Total Jobs: ${data.jobs}</p>
+      <p>Average Pay: ${data.avgPay}</p>
+    </div>
+  `;
+}
+</script>
+
+</body>
+</html>
